@@ -18,5 +18,9 @@ namespace api_sistema
         public DbSet<t_tipodocumento> t_tipodocumento { get; set; }
         public DbSet<t_categoria> t_categoria { get; set; }
         public DbSet<t_producto> t_producto { get; set; }
+        public DbSet<t_cliente> t_cliente { get; set; }
+        public DbSet<t_fac_enc> t_fac_encs { get; set; }
+        public DbSet<t_fact_deta> t_fact_detas { get; set; }
+
     }
 }

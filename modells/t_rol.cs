@@ -7,6 +7,6 @@ namespace api_sistema.modells
         [Key]
         public int rolId { get; set; }
 
-        public string? rolnombre { get; set; }
+        public string rolnombre { get; set; }
     }
 }

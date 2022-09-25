@@ -7,6 +7,6 @@ namespace api_sistema.modells
         [Key]
         public int tipodocumentoid { get; set; }
 
-        public string? tipodocumentonombre { get; set; }
+        public string tipodocumentonombre { get; set; }
     }
 }

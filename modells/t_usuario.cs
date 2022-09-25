@@ -13,16 +13,16 @@ namespace api_sistema.modells
 
         [ForeignKey("tipodocumentoid")]
 
-        public t_tipodocumento? t_tipodocumento { get; set; }
+        public t_tipodocumento t_tipodocumento { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
-        public string? numdocumento { get; set; }
+        public string numdocumento { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
-        public string? nombres { get; set; }
+        public string nombres { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
-        public string? apellidos { get; set; }
+        public string apellidos { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
         public long telefono { get; set; }
@@ -31,6 +31,6 @@ namespace api_sistema.modells
         public int rolid { get; set; }
         [ForeignKey("rolid")]
 
-        public t_rol? t_rol { get; set; }
+        public t_rol t_rol { get; set; }
     }
 }

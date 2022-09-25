@@ -9,6 +9,6 @@ namespace api_sistema.modells
         public int cat_id { get; set; }
         
         [Required(ErrorMessage ="Este Campo Es Requerido")]
-        public string? cat_nombre { get; set; }
+        public string cat_nombre { get; set; }
     }
 }

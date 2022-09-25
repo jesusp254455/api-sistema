@@ -32,7 +32,8 @@ namespace api_sistema.Controllers
             {
                 return NotFound();
             }
-            var t_producto = await dcontext.t_producto.FindAsync(id);
+            var t_producto = await dcontext.t_producto.
+                Include("t_categoria").FirstOrDefaultAsync(x =>x.pro_id == id);
             if(t_producto == null)
             {
                 return NotFound();
