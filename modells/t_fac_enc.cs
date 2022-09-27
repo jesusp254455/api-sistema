@@ -24,5 +24,7 @@ namespace api_sistema.modells
         public int fe_cli_id   { get; set; }
         [ForeignKey("fe_cli_id")]
         public t_cliente t_cliente { get; set; }
+
+        public List<t_fact_deta> t_fact_deta { get; set; }
     }
 }

@@ -8,15 +8,9 @@ namespace api_sistema.modells
         [Key]
         public int id { get; set; }
 
-        [Required(ErrorMessage = "Este Campo Es Requerido")]
-        public int tipodocumentoid { get; set; }
-
-        [ForeignKey("tipodocumentoid")]
-
-        public t_tipodocumento t_tipodocumento { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
-        public string numdocumento { get; set; }
+        public long numdocumento { get; set; }
 
         [Required(ErrorMessage = "Este Campo Es Requerido")]
         public string nombres { get; set; }
@@ -32,5 +26,12 @@ namespace api_sistema.modells
         [ForeignKey("rolid")]
 
         public t_rol t_rol { get; set; }
+
+        [Required(ErrorMessage = "Este Campo Es Requerido")]
+        public int tipodocumentoid { get; set; }
+
+        [ForeignKey("tipodocumentoid")]
+
+        public t_tipodocumento t_tipodocumento { get; set; }
     }
 }

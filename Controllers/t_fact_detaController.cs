@@ -39,5 +39,69 @@ namespace api_sistema.Controllers
             }
             return t_detalle;
         }
+
+        [HttpPost]
+        public async Task<ActionResult<t_fact_deta>> postt_cliente(t_fact_deta t_fact_deta)
+        {
+
+            if (context.t_fact_detas == null)
+            {
+                return Problem("error");
+            }
+            context.t_fact_detas.Add(t_fact_deta);
+            await context.SaveChangesAsync();
+
+            return CreatedAtAction("Gett_t_cliente", new { id = t_fact_deta.fd_id }, t_fact_deta);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> putt_cliente(int id, t_fact_deta t_fact_deta)
+        {
+            if (id != t_fact_deta.fd_id)
+            {
+                return BadRequest();
+            }
+            context.Entry(t_fact_deta).State = EntityState.Modified;
+
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!t_fact_detaexists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        private bool t_fact_detaexists(int id)
+        {
+            return (context.t_fact_detas?.Any(e => e.fd_id == id)).GetValueOrDefault();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deletet_cliente(int id)
+        {
+            if (context.t_fact_detas == null)
+            {
+                return NotFound();
+            }
+            var t_fact_detas = await context.t_fact_detas.FindAsync(id);
+            if (t_fact_detas == null)
+            {
+                return NotFound();
+            }
+            context.t_fact_detas.Remove(t_fact_detas);
+            await context.SaveChangesAsync();
+
+            return NotFound();
+        }
     }
 }

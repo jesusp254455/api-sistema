@@ -23,4 +23,11 @@ namespace api_sistema
         public DbSet<t_fact_deta> t_fact_detas { get; set; }
 
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<t_fac_enc>()
+                   .HasMany(c => c.t_fact_deta)
+                   .WithOne(e => e.T_fac_enc)
+                   .HasForeignKey(p => p.fd_enc_id);
+    }
 }

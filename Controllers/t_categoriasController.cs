@@ -38,5 +38,68 @@ namespace api_sistema.Controllers
             return t_categoria;
         }
 
+        [HttpPost]
+        public async Task<ActionResult<t_categoria>> postt_categoria(t_categoria t_categoria)
+        {
+            if(dcontext.t_categoria == null)
+            {
+                return Problem(" hay problemas de insercion");
+            }
+            dcontext.t_categoria.Add(t_categoria);
+            await dcontext.SaveChangesAsync();
+
+            return CreatedAtAction("get_t_categoria", new { id = t_categoria.cat_id }, t_categoria);
+
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> putt_categoria(int id, t_categoria t_categoria)
+        {
+            if(id != t_categoria.cat_id)
+            {
+                return BadRequest();
+            }
+            dcontext.Entry(t_categoria).State = EntityState.Modified;
+
+            try
+            {
+                await dcontext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!t_categoriaexists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+         }
+
+        private bool t_categoriaexists(int id)
+        {
+            return (dcontext.t_categoria?.Any(e => e.cat_id == id)).GetValueOrDefault();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deletet_categoria(int id)
+        {
+            if(dcontext.t_categoria == null)
+            {
+                return NotFound();
+            }
+            var t_categoria = await dcontext.t_categoria.FindAsync(id);
+            if (t_categoria == null)
+            {
+                return NotFound();
+            }
+            dcontext.t_categoria.Remove(t_categoria);
+            await dcontext.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }
