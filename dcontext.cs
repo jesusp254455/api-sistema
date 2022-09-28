@@ -1,5 +1,6 @@
 ﻿using api_sistema.modells;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace api_sistema
 {
@@ -19,15 +20,22 @@ namespace api_sistema
         public DbSet<t_categoria> t_categoria { get; set; }
         public DbSet<t_producto> t_producto { get; set; }
         public DbSet<t_cliente> t_cliente { get; set; }
-        public DbSet<t_fac_enc> t_fac_encs { get; set; }
-        public DbSet<t_fact_deta> t_fact_detas { get; set; }
+        public DbSet<t_fac_enc> t_fac_enc { get; set; }
+        public DbSet<t_fact_deta> t_fact_deta { get; set; }
 
-    }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
         modelBuilder.Entity<t_fac_enc>()
                    .HasMany(c => c.t_fact_deta)
                    .WithOne(e => e.T_fac_enc)
                    .HasForeignKey(p => p.fd_enc_id);
+        }
+
     }
+
+  
 }

@@ -17,21 +17,21 @@ namespace api_sistema.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<t_fact_deta>>> Gett_t_fact_deta()
         {
-            if(context.t_fact_detas == null)
+            if(context.t_fact_deta == null)
             {
                 return NotFound();
             }
             
-            return await context.t_fact_detas.ToListAsync();
+            return await context.t_fact_deta.Include("t_producto").ToListAsync();
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<t_fact_deta>> Gett_t_fact_deta(int id)
         {
-            if(context.t_fact_detas == null)
+            if(context.t_fact_deta == null)
             {
                 return NotFound();
             }
-            var t_detalle = await context.t_fact_detas
+            var t_detalle = await context.t_fact_deta
                 .Include("t_producto").FirstOrDefaultAsync(x => x.fd_id == id);
             if(t_detalle == null)
             {
@@ -44,11 +44,11 @@ namespace api_sistema.Controllers
         public async Task<ActionResult<t_fact_deta>> postt_cliente(t_fact_deta t_fact_deta)
         {
 
-            if (context.t_fact_detas == null)
+            if (context.t_fact_deta == null)
             {
                 return Problem("error");
             }
-            context.t_fact_detas.Add(t_fact_deta);
+            context.t_fact_deta.Add(t_fact_deta);
             await context.SaveChangesAsync();
 
             return CreatedAtAction("Gett_t_cliente", new { id = t_fact_deta.fd_id }, t_fact_deta);
@@ -83,22 +83,22 @@ namespace api_sistema.Controllers
 
         private bool t_fact_detaexists(int id)
         {
-            return (context.t_fact_detas?.Any(e => e.fd_id == id)).GetValueOrDefault();
+            return (context.t_fact_deta?.Any(e => e.fd_id == id)).GetValueOrDefault();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> deletet_cliente(int id)
         {
-            if (context.t_fact_detas == null)
+            if (context.t_fact_deta == null)
             {
                 return NotFound();
             }
-            var t_fact_detas = await context.t_fact_detas.FindAsync(id);
+            var t_fact_detas = await context.t_fact_deta.FindAsync(id);
             if (t_fact_detas == null)
             {
                 return NotFound();
             }
-            context.t_fact_detas.Remove(t_fact_detas);
+            context.t_fact_deta.Remove(t_fact_detas);
             await context.SaveChangesAsync();
 
             return NotFound();

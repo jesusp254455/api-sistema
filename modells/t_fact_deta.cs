@@ -20,7 +20,6 @@ namespace api_sistema.modells
         public t_producto t_producto { get; set; }
 
         public int fd_enc_id { get; set; }
-
-        public virtual t_fac_enc T_fac_enc { get; set; }
+        public  t_fac_enc T_fac_enc { get; set; }
     }
 }

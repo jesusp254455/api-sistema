@@ -10,7 +10,6 @@ namespace api_sistema.Controllers
     public class t_fac_encController : ControllerBase
     {
         public readonly dcontext context;
-        private int id;
 
         public t_fac_encController(dcontext context)
         {
@@ -19,21 +18,21 @@ namespace api_sistema.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<t_fac_enc>>> Gett_t_fac_enc()
         {
-            if(context.t_fac_encs == null)
+            if(context.t_fac_enc == null)
             {
                 return NotFound();
             }
-            return await context.t_fac_encs.ToListAsync();
+            return await context.t_fac_enc.Include("t_cliente").Include("t_fact_deta").ToListAsync();
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<t_fac_enc>> Gett_t_fac_enc(int id)
         {
-            if(context.t_fac_encs == null)
+            if(context.t_fac_enc == null)
             {
                 return NotFound();
             }
-            var t_encabezado = await context.t_fac_encs
-                 .Include("t_cliente").FirstOrDefaultAsync(x => x.fe_id == id);
+            var t_encabezado = await context.t_fac_enc
+                 .Include("t_fact_deta").FirstOrDefaultAsync(x => x.fe_id == id);
             if(t_encabezado == null)
             {
                 return NotFound();
@@ -44,11 +43,11 @@ namespace api_sistema.Controllers
         public async Task<ActionResult<t_fac_enc>> postt_cliente(t_fac_enc t_fac_enc)
         {
 
-            if (context.t_fac_encs == null)
+            if (context.t_fac_enc == null)
             {
                 return Problem("error");
             }
-            context.t_fac_encs.Add(t_fac_enc);
+            context.t_fac_enc.Add(t_fac_enc);
             await context.SaveChangesAsync();
 
             return CreatedAtAction("Gett_t_cliente", new { id = t_fac_enc.fe_id }, t_fac_enc);
@@ -82,24 +81,24 @@ namespace api_sistema.Controllers
             return NoContent();
         }
 
-        private bool t_fac_encexist(int documento)
+        private bool t_fac_encexist(int id)
         {
-            return (context.t_fac_encs?.Any(e => e.fe_id == id)).GetValueOrDefault();
+            return (context.t_fac_enc?.Any(e => e.fe_id == id)).GetValueOrDefault();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> deletet_cliente(int id)
         {
-            if (context.t_fac_encs == null)
+            if (context.t_fac_enc == null)
             {
                 return NotFound();
             }
-            var t_fac_encs = await context.t_fac_encs.FindAsync(id);
+            var t_fac_encs = await context.t_fac_enc.FindAsync(id);
             if (t_fac_encs == null)
             {
                 return NotFound();
             }
-            context.t_fac_encs.Remove(t_fac_encs);
+            context.t_fac_enc.Remove(t_fac_encs);
             await context.SaveChangesAsync();
 
             return NotFound();
